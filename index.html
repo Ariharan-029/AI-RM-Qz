@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI Rescue Mission • Prompt Engineering Quiz</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--tx:#14171c;--mut:#5d6673;--bd:#d9dee5;--ac:#1f6feb;--ok:#1a7f37;--okb:#e3f6e8;--no:#c62828;--nob:#fde8e8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1216;--card:#181c22;--tx:#e8ebef;--mut:#9aa4b1;--bd:#2c333d;--ac:#5b9dff;--ok:#5fd07f;--okb:#12301c;--no:#ff7b7b;--nob:#3a1717}}
+:root[data-theme="dark"]{--bg:#0f1216;--card:#181c22;--tx:#e8ebef;--mut:#9aa4b1;--bd:#2c333d;--ac:#5b9dff;--ok:#5fd07f;--okb:#12301c;--no:#ff7b7b;--nob:#3a1717}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-weight:700}
+#sc{color:var(--ac)}
+#tm.low{color:var(--no)}
+main{max-width:640px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:14px}
+.q{font-weight:600;margin:0 0 10px}
+.opt{display:block;width:100%;text-align:left;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;margin-top:8px;font:inherit;cursor:pointer}
+.opt.ok{background:var(--okb);border-color:var(--ok)}
+.opt.no{background:var(--nob);border-color:var(--no)}
+.opt:disabled{cursor:default;color:var(--tx)}
+input{width:100%;padding:12px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit;margin:10px 0}
+.go{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:12px 18px;font:inherit;font-weight:600;cursor:pointer;width:100%}
+h1{font-size:20px;margin:0}
+#final{text-align:center;font-size:20px;font-weight:700}
+</style>
+</head>
+<body>
+<header><span id="tn">Team: —</span><span id="tm">⏱ 10:00</span><span id="sc">Score: 0/10</span></header>
+<main id="m"></main>
+<script>
+var Q=[
+["Prompt Engineering — You want an AI to create a disaster-management plan. Which prompt contains the strongest combination of context, constraints, objective and output format?",["“Create a disaster plan.”","“You are a disaster expert. Give me a good plan.”","“Act as a disaster-management expert. A village of 500 people has lost electricity and communication after a cyclone. Create a 24-hour emergency plan using only locally available resources. Prioritize drinking water, medical emergencies and communication. Present the response as a numbered action plan.”","“Explain everything about disaster management and survival.”"],2],
+["Hallucination — An AI confidently provides a scientific fact that sounds believable, but you suspect it may be incorrect. What is the most appropriate response?",["Trust it because the AI answered confidently","Ask the AI to repeat the same answer","Verify the claim using reliable external sources","Assume every AI-generated fact is false"],2],
+["Constraint Following — You give an AI this instruction: “Recommend 5 survival items. You may use only a knife, rope and water bottle.” The AI recommends a GPS, tent, satellite phone, lighter and knife. What is the primary problem?",["The AI is too creative","The AI failed to follow the resource constraint","The AI used too few words","The AI misunderstood the English language"],1],
+["Ambiguous Prompt — Which prompt has the greatest ambiguity?",["“Explain machine learning in 100 words for a beginner.”","“Compare Python and Java based on execution speed, syntax and common use cases.”","“Tell me about AI.”","“Create a 5-step emergency plan for a team trapped in a forest.”"],2],
+["Prompt Structure — “Act as an experienced survival instructor. We are two students trapped in a forest with 2 litres of water, a knife and a flashlight. We have 12 hours before sunset. Give us a safe action plan in chronological order and do not assume that we possess any other equipment.” Which element is primarily represented by: “Do not assume that we possess any other equipment.”?",["Role","Context","Constraint","Output format"],2],
+["Same Question — Different Context. Team A asks: “How can we survive in a desert?” Team B asks: “We are two people lost in a desert with 3 litres of water, a compass and a mobile phone with 10% battery. We don't know our location and have 6 hours before sunset. Create a prioritized survival and rescue plan using only these resources.” Why is Team B's prompt generally more useful?",["It uses more complicated English","It provides relevant context and constraints","It forces the AI to always give a correct answer","It gives the AI access to the internet"],1],
+["AI Reasoning Trap — An AI is asked: “I have 3 apples. I give 1 apple to Ravi. How many apples do I have?” The AI answers 2. Then the user says: “Actually, Ravi gave the apple back to me.” What should the correct answer now be?",["1","2","3","The AI must always keep its original answer"],2],
+["Information Reliability — Which statement about AI-generated information is the most accurate?",["AI-generated information is always factually correct.","AI cannot generate information it wasn't explicitly trained on.","AI can generate plausible but incorrect information, so important claims may need verification.","AI intentionally lies whenever it doesn't know something."],2],
+["Prompt Improvement — You initially give this prompt: “Make a plan to escape.” Which modification would most significantly improve the prompt?",["“Make a really, really good plan.”","“Please make the plan.”","“You are a rescue expert. We are trapped inside an abandoned building with two exits, no electricity and one flashlight. Create a safe step-by-step escape plan and explain the priority of each action.”","“Make a longer plan with more words.”"],2],
+["THE FINAL TRAP — You give an AI: “You are stranded on an island. You have a knife, rope, two bottles of water and a mobile phone with 10% battery. Create a survival plan. You are not allowed to assume anything that isn't mentioned.” The AI responds: “First, use your GPS to locate the nearest settlement. Then use your satellite phone to contact rescue services. Build a tent using the camping equipment you brought.” What is the best criticism of this response?",["The response is too short.","The AI failed to respect the stated constraints and introduced unavailable resources.","The AI should only discuss food.","The AI should use more technical vocabulary."],1]
+];
+var score=0,done=0,team="",m=document.getElementById("m"),allBtns=[],over=false,left=600,tick=null;
+function fmt(s){return "⏱ "+Math.floor(s/60)+":"+("0"+(s%60)).slice(-2)}
+function finish(msg){
+ if(over)return;over=true;clearInterval(tick);
+ allBtns.forEach(function(b){b.disabled=true});
+ var f=document.createElement("div");f.className="card";f.id="final";
+ f.textContent=(msg||"")+"Final score: "+score+"/10";
+ m.appendChild(f);f.scrollIntoView({behavior:"smooth"});
+}
+function startTimer(){
+ var tm=document.getElementById("tm");
+ tick=setInterval(function(){
+  left--;tm.textContent=fmt(left);
+  if(left<=60)tm.className="low";
+  if(left<=0){finish("Time's up! ");}
+ },1000);
+}
+function start(){
+ m.innerHTML='<div class="card"><h1>AI Rescue Mission</h1><p>Prompt Engineering Quiz</p><input id="t" placeholder="Enter team name" maxlength="30"><button class="go" id="b">Start</button></div>';
+ document.getElementById("b").onclick=function(){
+  var v=document.getElementById("t").value.trim();
+  if(!v)return;team=v;
+  document.getElementById("tn").textContent="Team: "+team;
+  render();startTimer();
+ };
+}
+function render(){
+ m.innerHTML="";
+ Q.forEach(function(q,i){
+  var c=document.createElement("div");c.className="card";
+  var p=document.createElement("p");p.className="q";p.textContent=(i+1)+". "+q[0];c.appendChild(p);
+  var btns=[];
+  q[1].forEach(function(o,j){
+   var b=document.createElement("button");b.className="opt";b.textContent=String.fromCharCode(65+j)+") "+o;
+   allBtns.push(b);
+   b.onclick=function(){
+    if(over)return;
+    btns.forEach(function(x){x.disabled=true});
+    btns[q[2]].classList.add("ok");
+    if(j===q[2])score++;else b.classList.add("no");
+    done++;
+    document.getElementById("sc").textContent="Score: "+score+"/10";
+    if(done===10){finish("");}
+   };
+   btns.push(b);c.appendChild(b);
+  });
+  m.appendChild(c);
+ });
+}
+start();
+</script>
+</body>
+</html>
